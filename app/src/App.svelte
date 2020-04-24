@@ -1,19 +1,52 @@
 <script>
-	import Scan from './Scan.svelte';
+	import { Link } from 'svelte-routing';
+	import Router from "../node_modules/svelte-routing/src/Router.svelte";
+	import Route from "../node_modules/svelte-routing/src/Route.svelte";
+	import Scan from './components/Scan.svelte';
+	import Generate from './components/Generate.svelte';
+	import Form from './components/Form.svelte';
 
-	export let name;
+	export let url = '';
 </script>
 
 <main>
-	<Scan></Scan>
+	<Router url={url}>
+		<nav>
+			<Link to="">Home</Link>
+			<Link to="scan">Scan</Link>
+			<Link to="generate">Generate</Link>
+		</nav>
+		<div class="app-wrapper">
+			<Route path="" component="{Form}" />
+			<Route path="scan" component="{Scan}" />
+			<Route path="generate">
+				<Generate codeValue="12354231231231234562345" squareSize=200 />
+			</Route>
+		</div>
+	</Router>
 </main>
 
-<style>
+<style type="text/scss">
+	:global(body) {
+		padding: 0;
+	}
+
 	main {
 		text-align: center;
-		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
+	}
+
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		padding: 1em;
+		box-shadow: 2px 2px 1px 0px rgba(0,0,0,0.15);
+	}
+
+	nav :global(a) {
+		margin-right: 1em;
 	}
 
 	h1 {
@@ -21,6 +54,10 @@
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
+	}
+
+	.app-wrapper {
+		margin-top: 2em;
 	}
 
 	@media (min-width: 640px) {
