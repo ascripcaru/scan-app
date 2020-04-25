@@ -14,13 +14,12 @@
 		<nav>
 			<Link to="">Home</Link>
 			<Link to="scan">Scan</Link>
-			<Link to="generate">Generate</Link>
 		</nav>
 		<div class="app-wrapper">
 			<Route path="" component="{Form}" />
 			<Route path="scan" component="{Scan}" />
 			<Route path="generate">
-				<Generate codeValue="12354231231231234562345" squareSize=200 />
+				<Generate />
 			</Route>
 		</div>
 	</Router>
