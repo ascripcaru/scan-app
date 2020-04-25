@@ -67,16 +67,20 @@
         await tick();
 
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(function(stream) {
+            console.log('STREAMING');
             video.srcObject = stream;
             video.setAttribute('playsinline', true);
             video.play();
             requestAnimationFrame(captureTick);
+        }, (err) => {
+            document.write('err', err);
         });
     }
 
     async function capture() {
         isStreaming = true;
 
+        console.log('capture');
         selectElements();
         startStreaming();
     }
