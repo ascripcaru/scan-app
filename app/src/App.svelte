@@ -12,7 +12,7 @@
 <main>
 	<Router url={url}>
 		<nav>
-			<Link to="">Home</Link>
+			<Link to=""><i class="logo fas fa-qrcode"></i></Link>
 			<Link to="scan">Scan</Link>
 		</nav>
 		<div class="app-wrapper">
@@ -32,7 +32,6 @@
 
 	main {
 		text-align: center;
-		max-width: 240px;
 		margin: 0 auto;
 	}
 
@@ -63,5 +62,11 @@
 		main {
 			max-width: none;
 		}
+	}
+
+	.logo {
+		font-family: 'FontAwesome';
+		font-style: initial;
+		font-size: 20px;
 	}
 </style>

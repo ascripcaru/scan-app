@@ -20,7 +20,7 @@
     ];
     let colorsMap = {
         low: 'green',
-        medium: 'orange',
+        medium: '#b1760a',
         high: 'red'
     };
 
@@ -57,9 +57,9 @@
 
 <style>
     #qr {
-        width: 500px;
-        height: 500px;
-        margin-top:15px;
+        width: calc(60% - 100px);
+        height: auto;
+        margin-top: 16px;
     }
 </style>
 
