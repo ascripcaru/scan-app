@@ -87,6 +87,11 @@
         startStreaming();
     }
 
+    function stopCapture() {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        isStreaming = false;
+    }
+
     function drawLine(begin, end, color) {
         canvas.beginPath();
         canvas.moveTo(begin.x, begin.y);
@@ -99,7 +104,11 @@
 
 <main>
     <div id="reader" class="container-fluid d-flex flex-column align-items-center">
-        <button class="btn btn-success" on:click={capture}>Start streaming</button>
+        {#if !isStreaming}
+            <button class="btn btn-success" on:click={capture}>Start streaming</button>
+        {:else}
+            <button class="btn btn-danger" on:click={stopCapture}>Stop streaming</button>
+        {/if}
 
         {#if isStreaming}
             <div id="loadingMessage" hidden="">⌛ Loading video...</div>
