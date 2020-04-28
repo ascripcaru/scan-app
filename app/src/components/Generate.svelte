@@ -57,8 +57,8 @@
 
 <style>
     #qr {
-        width: 500px;
-        height: 500px;
+        width: 100%;
+        max-width: 500px;
         margin-top:15px;
     }
 </style>

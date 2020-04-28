@@ -17,9 +17,9 @@
 </script>
 
 <main>
-    <div class="row">
-        <div class="col-6">
-            <form class="text-left ml-4">
+    <div class="container">
+        <div class="basic-form">
+            <form class="text-left ml-2 mr-2">
                 <div class="form-group">
                     <label for="name">Nume</label>
                     <input id="name" type="text" class="form-control" bind:value={formData.name}>
@@ -38,4 +38,8 @@
     </div>
 </main>
 
-<style></style>
+<style>
+    .basic-form {
+        max-width: 500px;
+    }
+</style>
