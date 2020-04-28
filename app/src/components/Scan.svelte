@@ -98,8 +98,8 @@
 </script>
 
 <main>
-    <div id="reader">
-        <button on:click={capture}>Start streaming</button>
+    <div id="reader" class="container-fluid d-flex flex-column align-items-center">
+        <button class="btn btn-success" on:click={capture}>Start streaming</button>
 
         {#if isStreaming}
             <div id="loadingMessage" hidden="">⌛ Loading video...</div>
