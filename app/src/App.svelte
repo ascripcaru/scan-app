@@ -1,7 +1,5 @@
 <script>
-	import { Link } from 'svelte-routing';
-	import Router from "../node_modules/svelte-routing/src/Router.svelte";
-	import Route from "../node_modules/svelte-routing/src/Route.svelte";
+	import { Link, Route, Router } from 'svelte-routing';
 	import Scan from './components/Scan.svelte';
 	import Generate from './components/Generate.svelte';
 	import Form from './components/Form.svelte';
