@@ -25,17 +25,20 @@
     };
 
     onMount(() => {
+        let parsedParams;
         try {
             queryString = decodeURIComponent(window.location.search.slice(1, window.location.search.length));
+            parsedParams = JSON.parse(queryString);
+            parsedParams.riskLevel = getRiskLevel(parsedParams);
         } catch(e) {
             console.error('Err', e);
         }
 
-        if (queryString) {
+        if (parsedParams) {
             qr = new QRious({
                 element: document.getElementById('qr'),
-                value: queryString,
-                size: 1024,
+                value: JSON.stringify(parsedParams),
+                size: 2048,
                 foreground: getColor(queryString)
             })
         }
@@ -53,11 +56,22 @@
         return colorsMap.low;
 
     }
+
+    function getRiskLevel(params) {
+        const matchingCode = cnps.find(c => c.code === params.cnp);
+
+        if (matchingCode) {
+            return matchingCode.riskLevel;
+        }
+
+        return 'low';
+    }
+
 </script>
 
 <style>
     #qr {
-        width: 100%;
+        width: 90%;
         max-width: 500px;
         margin-top:15px;
     }

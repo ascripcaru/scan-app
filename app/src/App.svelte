@@ -16,7 +16,9 @@
 			<Link to="scan">Scan</Link>
 		</nav>
 		<div class="app-wrapper">
-			<Route path="" component="{Form}" />
+			<Route path="">
+				<Form disabled={false} />
+			</Route>
 			<Route path="scan" component="{Scan}" />
 			<Route path="generate">
 				<Generate />

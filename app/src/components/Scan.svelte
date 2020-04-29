@@ -1,6 +1,8 @@
 <script>
     import { tick } from 'svelte';
     import jsQR from 'jsqr';
+    import Form from './Form.svelte';
+    import QRious from 'qrious';
 
     let decoded = false;
     let isStreaming = false;
@@ -11,6 +13,13 @@
     let outputMessage;
     let outputData;
     let video = document.createElement('video');
+    let formData;
+    let generatedQr;
+    let colorsMap = {
+        low: 'green',
+        medium: 'orange',
+        high: 'red'
+    };
 
     async function selectElements() {
         await tick();
@@ -35,9 +44,10 @@
             canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
             var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
             var code = jsQR(imageData.data, imageData.width, imageData.height, {
-                inversionAttempts: 'dontInvert',
+                inversionAttempts: 'attemptBoth',
             });
-            if (code) {
+
+            if (code && code.data.length) {
                 decoded = true;
 
                 selectElements();
@@ -59,8 +69,27 @@
         drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58');
 
         outputMessage.hidden = true;
+        isStreaming = false;
+
         outputData.innerText = code.data;
         video.srcObject.getTracks().forEach(track => track.stop());
+        formData = JSON.parse(code.data);
+        redrawCode();
+    }
+
+    async function redrawCode() {
+        await tick();
+
+        generatedQr = new QRious({
+            element: document.getElementById('generated'),
+            value: JSON.stringify(formData),
+            size: 1024,
+            foreground: colorsMap[formData.riskLevel || 'green']
+        })
+    }
+
+    function getColor() {
+
     }
 
     async function startStreaming() {
@@ -70,7 +99,7 @@
             video: {
                 facingMode: 'environment'
             }
-        }
+        };
 
         const userMedia = await navigator.mediaDevices.getUserMedia(options);
 
@@ -119,9 +148,19 @@
             <div id="output">
                 <div id="outputMessage">No QR code detected.</div>
                 <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
+                {#if formData}
+                    <canvas id="generated"></canvas>
+                    <Form disabled="true" propFormData={formData} />
+                {/if}
             </div>
         {/if}
     </div>
 </main>
 
-<style></style>
+<style>
+    #generated {
+        width: 90%;
+        max-width: 500px;
+        margin-top:15px;
+    }
+</style>
