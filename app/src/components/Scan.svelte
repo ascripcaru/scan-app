@@ -37,7 +37,7 @@
             var code = jsQR(imageData.data, imageData.width, imageData.height, {
                 inversionAttempts: 'dontInvert',
             });
-            if (code && code.data.length) {
+            if (code) {
                 decoded = true;
 
                 selectElements();
@@ -53,21 +53,31 @@
     async function onDecode(code) {
         await tick();
 
+        drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58');
+        drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58');
+        drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58');
+        drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58');
+
         outputMessage.hidden = true;
         outputData.innerText = code.data;
         video.srcObject.getTracks().forEach(track => track.stop());
-        document.getElementById('canvas').remove();
     }
 
-    function startStreaming() {
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(function(stream) {
-            video.srcObject = stream;
-            video.setAttribute('playsinline', true);
-            video.play();
-            requestAnimationFrame(captureTick);
-        }, (err) => {
-            document.write('err', err);
-        });
+    async function startStreaming() {
+        await tick();
+
+        const options = {
+            video: {
+                facingMode: 'environment'
+            }
+        }
+
+        const userMedia = await navigator.mediaDevices.getUserMedia(options);
+
+        video.srcObject = userMedia;
+        video.setAttribute('playsinline', true);
+        video.play();
+        requestAnimationFrame(captureTick);
     }
 
     async function capture() {
@@ -77,14 +87,32 @@
         startStreaming();
     }
 
-    capture();
+    function stopCapture() {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        isStreaming = false;
+    }
+
+    function drawLine(begin, end, color) {
+        canvas.beginPath();
+        canvas.moveTo(begin.x, begin.y);
+        canvas.lineTo(end.x, end.y);
+        canvas.lineWidth = 4;
+        canvas.strokeStyle = color;
+        canvas.stroke();
+    }
 </script>
 
 <main>
-    <div id="reader">
+    <div id="reader" class="container-fluid d-flex flex-column align-items-center">
+        {#if !isStreaming}
+            <button class="btn btn-success" on:click={capture}>Start streaming</button>
+        {:else}
+            <button class="btn btn-danger" on:click={stopCapture}>Stop streaming</button>
+        {/if}
+
         {#if isStreaming}
             <div id="loadingMessage" hidden="">⌛ Loading video...</div>
-            <canvas id="canvas" height="320" width="320"></canvas>
+            <canvas id="canvas" height="720" width="1280"></canvas>
         {/if}
 
         {#if decoded}
@@ -96,7 +124,4 @@
     </div>
 </main>
 
-<style>
-    #canvas {
-    }
-</style>
+<style></style>
