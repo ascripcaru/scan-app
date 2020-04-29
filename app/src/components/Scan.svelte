@@ -11,7 +11,6 @@
     let loadingMessage;
     let outputContainer;
     let outputMessage;
-    let outputData;
     let video = document.createElement('video');
     let formData;
     let generatedQr;
@@ -29,7 +28,6 @@
         loadingMessage = document.getElementById('loadingMessage');
         outputContainer = document.getElementById('output');
         outputMessage = document.getElementById('outputMessage');
-        outputData = document.getElementById('outputData');
     }
 
     function captureTick() {
@@ -71,7 +69,6 @@
         outputMessage.hidden = true;
         isStreaming = false;
 
-        outputData.innerText = code.data;
         video.srcObject.getTracks().forEach(track => track.stop());
         formData = JSON.parse(code.data);
         redrawCode();
@@ -147,7 +144,6 @@
         {#if decoded}
             <div id="output">
                 <div id="outputMessage">No QR code detected.</div>
-                <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
                 {#if formData}
                     <canvas id="generated"></canvas>
                     <Form disabled="true" propFormData={formData} />
