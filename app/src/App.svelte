@@ -1,28 +1,17 @@
 <script>
-	import { Link, Route, Router } from 'svelte-routing';
-	import Scan from './components/Scan.svelte';
-	import Generate from './components/Generate.svelte';
-	import Form from './components/Form.svelte';
+	import { Router, Navigate } from 'svelte-router-spa';
+	import { routes } from './Routes';
 
 	export let url = '';
+	let params = {};
 </script>
 
 <main>
-	<Router url={url}>
-		<nav>
-			<Link to=""><i class="logo fas fa-qrcode"></i></Link>
-			<Link to="scan">Scan</Link>
-		</nav>
-		<div class="app-wrapper">
-			<Route path="">
-				<Form disabled={false} />
-			</Route>
-			<Route path="scan" component="{Scan}" />
-			<Route path="generate">
-				<Generate />
-			</Route>
-		</div>
-	</Router>
+	<nav>
+		<a href="/"><i class="logo fas fa-qrcode"></i></a>
+		<a href="/scan">Scan</a>
+	</nav>
+	<Router {routes} {params}></Router>
 </main>
 
 <style type="text/scss">
@@ -41,6 +30,7 @@
 		justify-content: flex-start;
 		padding: 1em;
 		box-shadow: 2px 2px 1px 0px rgba(0,0,0,0.15);
+		margin-bottom: 1em;
 	}
 
 	nav :global(a) {

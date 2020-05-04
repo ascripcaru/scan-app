@@ -21,6 +21,7 @@
     "sass": "^1.26.5",
     "sirv-cli": "^0.4.5",
     "svelte-preprocess": "^3.7.4",
+    "svelte-router-spa": "^5.6.0",
     "svelte-routing": "^1.4.2"
   }
 }

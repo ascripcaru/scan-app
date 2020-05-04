@@ -27,7 +27,7 @@
     onMount(() => {
         let parsedParams;
         try {
-            queryString = decodeURIComponent(window.location.search.slice(1, window.location.search.length));
+            queryString = decodeURIComponent(window.location.search.slice(1, window.location.search.length - 1));
             parsedParams = JSON.parse(queryString);
             parsedParams.riskLevel = getRiskLevel(parsedParams);
         } catch(e) {
